@@ -56,43 +56,11 @@ let bodyLock = (delay = 500) => {
 function uniqArray(array) {
   return array.filter((item, index, self) => self.indexOf(item) === index);
 }
-const gotoBlock = (targetBlock, noHeader = false, speed = 500, offsetTop = 0) => {
-  const targetBlockElement = document.querySelector(targetBlock);
-  if (targetBlockElement) {
-    let headerItem = "";
-    let headerItemHeight = 0;
-    if (noHeader) {
-      headerItem = "header.header";
-      const headerElement = document.querySelector(headerItem);
-      if (!headerElement.classList.contains("--header-scroll")) {
-        headerElement.style.cssText = `transition-duration: 0s;`;
-        headerElement.classList.add("--header-scroll");
-        headerItemHeight = headerElement.offsetHeight;
-        headerElement.classList.remove("--header-scroll");
-        setTimeout(() => {
-          headerElement.style.cssText = ``;
-        }, 0);
-      } else {
-        headerItemHeight = headerElement.offsetHeight;
-      }
-    }
-    if (document.documentElement.hasAttribute("data-fls-menu-open")) {
-      bodyUnlock();
-      document.documentElement.removeAttribute("data-fls-menu-open");
-    }
-    let targetBlockElementPosition = targetBlockElement.getBoundingClientRect().top + scrollY;
-    targetBlockElementPosition = headerItemHeight ? targetBlockElementPosition - headerItemHeight : targetBlockElementPosition;
-    targetBlockElementPosition = offsetTop ? targetBlockElementPosition - offsetTop : targetBlockElementPosition;
-    window.scrollTo({
-      top: targetBlockElementPosition,
-      behavior: "smooth"
-    });
-  }
-};
 addTouchAttr();
 export {
-  bodyLockStatus as a,
-  bodyLockToggle as b,
-  gotoBlock as g,
+  bodyUnlock as a,
+  bodyLock as b,
+  bodyLockStatus as c,
+  bodyLockToggle as d,
   uniqArray as u
 };
