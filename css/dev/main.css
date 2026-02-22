@@ -19,13 +19,13 @@ html {
   height: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-height, 3.75rem));
-  /* scroll-snap-type: y mandatory; */
-  /* scrollbar-gutter: stable; */
+  scroll-snap-type: y mandatory;
+  scrollbar-gutter: stable;
 }
 
 body {
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh;
   line-height: 1.4;
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
@@ -317,7 +317,7 @@ label {
   --swiper-pagination-bullet-inactive-color: #001f62;
   --header-height: 4.5rem;
   --text-color: #dcfcd9;
-  --bg-color: #021301;
+  --bg-color: #1c221b;
   --primary-color: #2ce713;
   --secondary-color: #0a647f;
   --accent-color: #0e47aa;
@@ -387,7 +387,7 @@ section:not(:first-of-type) {
 .section__subtitle {
   font-weight: 300;
   font-size: clamp(0.875rem, 0.514rem + 1.48vw, 1.625rem); /* 14 - 26 */
-  line-height: 100%;
+  line-height: 1.2;
 }
 
 a,
@@ -1152,7 +1152,7 @@ dl[class] {
   text-underline-offset: 0.1875rem;
 }
 .footer__link:hover {
-  color: var(--primary);
+  color: var(--primary-color);
 }
 .footer .socials {
   grid-column: 1/-1;
@@ -2328,7 +2328,7 @@ button[type=submit] {
 @media (prefers-color-scheme: dark){
   :root {
     --text-color: #dcfcd9;
-    --bg-color: #021301;
+    --bg-color: #1c221b;
     --primary-color: #2ce713;
     --secondary-color: #0a647f;
     --accent-color: #0e47aa;
