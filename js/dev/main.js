@@ -41,7 +41,7 @@ const menuList = document.querySelector(".header .menu__list");
 window.addEventListener("scroll", () => {
   document.querySelectorAll("section").forEach((sec) => {
     let menuLink = menuList.querySelector(
-      `.menu__item:has(.menu__link[href="#${sec.id}"])`
+      `.menu__item:has(a[href="#${sec.id}"])`
     );
     if (window.scrollY >= sec.offsetTop - document.querySelector(".header").offsetHeight && window.scrollY < sec.offsetTop + sec.offsetHeight) {
       menuLink?.classList.add("menu__item--active");
