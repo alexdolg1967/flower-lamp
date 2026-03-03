@@ -58,7 +58,9 @@ function uniqArray(array) {
 }
 addTouchAttr();
 export {
-  bodyLockStatus as a,
-  bodyLockToggle as b,
+  bodyLock as a,
+  bodyLockStatus as b,
+  bodyUnlock as c,
+  bodyLockToggle as d,
   uniqArray as u
 };

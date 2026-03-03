@@ -1,4 +1,6 @@
 import "./main.min.js";
+import "./popup.min.js";
+import "./sectioncatalog.min.js";
 import { u as uniqArray } from "./common.min.js";
 class ScrollWatcher {
   constructor(props) {

@@ -139,109 +139,57 @@
   transition: scale var(--animation-speed) linear;
 }
 
-.page--index {
-  position: relative;
+.section-policy {
+  padding-top: clamp(0rem, -1.053rem + 4.32vw, 2.188rem) !important; /* 0 - 35 */
+  padding-bottom: clamp(3.125rem, 2.222rem + 3.7vw, 5rem) !important; /* 50 - 80 */
 }
-.page--index__bg {
-  position: fixed;
-  top: var(--header-height);
-  left: 0;
-  opacity: 0.18;
-  z-index: -1;
-  width: 50%;
-  height: 50%;
-}
-.page--index__bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: top left;
-}
-
-.section-hero {
-  position: relative;
-  padding-top: calc((100svh - var(--min-height-section)) / 2);
-  padding-bottom: calc((100svh - var(--min-height-section)) / 2);
-  min-height: var(--min-height-section);
-}
-.section-hero__grid {
-  display: grid;
-  gap: clamp(1.25rem, 0.167rem + 4.62vw, 3.125rem); /* 30 - 50 */
-}
-.section-hero__content {
+.section-policy .policy-list {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-self: center;
+  gap: clamp(1.875rem, 1.42rem + 2.27vw, 3.125rem); /* 30 - 50 */
+  padding-top: clamp(0.938rem, 0.799rem + 0.59vw, 1.5rem);
+  width: 100%;
 }
-.section-hero__title {
-  font-weight: 700;
-  font-family: "PlaypenSans";
+.section-policy .policy-list-wrapper {
+  margin-bottom: clamp(2.188rem, 1.957rem + 0.98vw, 3.125rem);
+  padding-left: 1.375rem;
 }
-.section-hero__subtitle {
+.section-policy .policy-list-wrapper li {
+  display: block;
+  max-width: 150ch;
+  font-size: clamp(0.875rem, 0.721rem + 0.63vw, 1.125rem);
+  line-height: 1.4;
+  font-family: var(--second-family);
+}
+.section-policy .policy-list-wrapper > li {
+  margin-top: clamp(0.625rem, 0.533rem + 0.39vw, 1rem);
+}
+.section-policy .policy-list-wrapper > li span, .section-policy .policy-list-wrapper > li:before .fs-largest {
   font-weight: 500;
-  font-family: "PlaypenSans";
+  font-size: clamp(1.25rem, 1.096rem + 0.66vw, 1.875rem);
+  line-height: 1.4;
 }
-.section-hero__image {
-  border: 0.125rem solid var(--secondary-color);
-  border-radius: clamp(3.75rem, 2.045rem + 7.27vw, 7.5rem); /* 60 - 120 */
-  width: 100%;
-  max-height: 43.75rem;
-  overflow: hidden;
-  corner-shape: scoop;
-  box-shadow: 0 0.3125rem 0.9375rem var(--secondary-color), 0 -0.3125rem 0.9375rem var(--secondary-color);
+.section-policy .policy-list-wrapper li:before {
+  position: absolute;
+  transform: translateX(-120%);
+  counter-increment: item;
+  content: counters(item, ".") ".";
 }
-.section-hero__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.section-policy .policy-list ol {
+  counter-reset: item;
+  padding-left: 1.5rem;
 }
-
-.section-blog__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18.125rem, 1fr));
-  gap: clamp(0.938rem, 0.653rem + 1.21vw, 1.563rem); /* 15 - 25 */
+.section-policy .policy-list-feedback {
+  transition: color 0.2s ease;
+  color: var(--text-color);
+  text-decoration: underline;
 }
-
-.blog-item {
-  display: flex;
-  flex-direction: column;
+.section-policy .policy-list-feedback:hover {
+  color: var(--accent-color);
 }
-.blog-item__image {
-  flex-shrink: 0;
-  border: 0.0625rem solid var(--secondary-color);
-  border-radius: 1.875rem;
-  aspect-ratio: 4/3;
-  corner-shape: scoop;
-  max-width: none;
-}
-.blog-item__content {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.9375rem;
-  padding: 0.9375rem;
-  height: 100%;
-}
-.blog-item__title {
-  display: -webkit-box;
-  height: clamp(4.813rem, 4.159rem + 3.27vw, 6.25rem); /* 77 - 100 */
-  font-size: clamp(1.125rem, 0.955rem + 0.73vw, 1.5rem); /* 18 - 24 */
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: initial;
-  -webkit-box-orient: vertical;
-}
-.blog-item__text {
-  flex-grow: 1;
-}
-@media screen and (max-width: 63.99875rem) {
-  .section-hero__image {
-    aspect-ratio: 58/65;
-  }
+.section-policy .policy-list p:has(.button) {
+  align-self: center;
+  text-align: center;
 }
 @media screen and (min-width: 48rem) {
   .is-animated-right {
@@ -257,21 +205,5 @@
     animation: is-animated-left 0.4s forwards;
     animation-delay: var(--anime-delay, 0.5);
     transition: transform 0.5s ease, opacity 0.5s ease;
-  }
-}
-@media (min-width: 64rem) {
-  .section-hero__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .section-hero__content {
-    align-items: flex-start;
-  }
-  .section-blog__grid {
-    grid-template-columns: repeat(auto-fit, minmax(18.75rem, 0.5fr));
-  }
-}
-@media (min-width: 85.375rem) {
-  .section-blog__grid {
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 0.33fr));
   }
 }
