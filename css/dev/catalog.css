@@ -139,6 +139,112 @@
   transition: scale var(--animation-speed) linear;
 }
 
+.section-faq__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  gap: clamp(1.25rem, -0.27rem + 6.49vw, 5rem);
+}
+.section-faq .details__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 1.875rem;
+}
+.section-faq details {
+  position: relative;
+  transition: box-shadow 0.3s ease-out;
+  box-shadow: var(--box-shadow);
+  border-radius: 0.625rem;
+}
+.section-faq summary {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.625rem;
+  transition: color 0.3s ease-in;
+  cursor: pointer;
+  border-radius: 0.625rem;
+  background: transparent;
+  padding: 1rem 1.5rem;
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: clamp(0.875rem, 0.824rem + 0.22vw, 1rem);
+}
+.section-faq summary:hover {
+  color: var(--primary-color);
+}
+.section-faq summary:hover::before {
+  background-image: url(../assets/img/shevron-down-accent.svg);
+}
+.section-faq .details::details-content {
+  display: block;
+  transition-behavior: allow-discrete;
+  transition-duration: 0.5s;
+  transition-property: block-size, content-visibility, padding-top;
+  margin-inline: 1rem;
+  block-size: 0;
+  overflow: hidden;
+  color: var(--text-color);
+  font-weight: 400;
+  font-size: clamp(0.875rem, 0.824rem + 0.22vw, 1rem);
+  line-height: 179%;
+}
+.section-faq .details::details-content ul li {
+  margin-bottom: 1em;
+}
+.section-faq .details[open]::details-content {
+  padding-top: 0.9375rem;
+  block-size: auto;
+  block-size: calc-size(auto, size);
+}
+.section-faq {
+  /* List Item ::marker supports only some CSS properties, so we're using ::before pseudo-element instead */
+}
+.section-faq summary::marker {
+  flex-shrink: 0;
+  transition: rotate 0.3s ease-in-out;
+  background-image: url(../assets/img/shevron-down.svg);
+  width: 1.5rem;
+  height: 1.5rem;
+  content: "";
+}
+.section-faq summary::-webkit-details-marker {
+  display: none;
+}
+.section-faq summary::before {
+  position: relative;
+  flex-shrink: 0;
+  order: 2;
+  transition: rotate 0.3s ease-in-out;
+  background-image: url(../assets/img/shevron-down.svg);
+  width: 1.5rem;
+  height: 1.5rem;
+  content: "";
+}
+.section-faq .details[open] {
+  box-shadow: var(--box-shadow-hover);
+}
+.section-faq .details[open] summary {
+  background: transparent;
+  color: var(--primary-color);
+}
+.section-faq .details[open] summary::before {
+  rotate: 180deg;
+  background-image: url(../assets/img/shevron-down-accent.svg);
+}
+.section-faq .details__content {
+  padding: 1rem 0.5rem;
+}
+.section-faq .details__content ul {
+  padding-left: 1.25rem;
+}
+.section-faq .details__content ul li {
+  margin-bottom: 0.3em;
+}
+.section-faq .details__content ul li:last-of-type {
+  margin-bottom: 1em;
+}
 @media screen and (min-width: 48rem) {
   .is-animated-right {
     transform: translateX(9.375rem);
@@ -153,5 +259,10 @@
     animation: is-animated-left 0.4s forwards;
     animation-delay: var(--anime-delay, 0.5);
     transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+}
+@media screen and (min-width: 64rem) {
+  .section-faq__grid {
+    grid-template-columns: 1fr;
   }
 }

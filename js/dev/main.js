@@ -1,4 +1,4 @@
-import { d as bodyLockToggle, b as bodyLockStatus } from "./common.min.js";
+import { b as bodyLockToggle, a as bodyUnlock, c as bodyLockStatus, g as gotoBlock, d as getHash } from "./common.min.js";
 (function polyfill() {
   const relList = document.createElement("link").relList;
   if (relList && relList.supports && relList.supports("modulepreload")) return;
@@ -35,38 +35,14 @@ function menuInit() {
       document.documentElement.toggleAttribute("data-fls-menu-open");
     }
   });
-}
-document.querySelector("[data-fls-menu]") ? window.addEventListener("load", menuInit) : null;
-const menuList = document.querySelector(".header .menu__list");
-window.addEventListener("scroll", () => {
-  document.querySelectorAll("section").forEach((sec) => {
-    let menuLink = menuList.querySelector(
-      `.menu__item:has(a[href="#${sec.id}"])`
-    );
-    if (window.scrollY >= sec.offsetTop - document.querySelector(".header").offsetHeight && window.scrollY < sec.offsetTop + sec.offsetHeight) {
-      menuLink?.classList.add("menu__item--active");
-    } else {
-      menuLink?.classList.remove("menu__item--active");
+  document.addEventListener("click", function(e) {
+    if (bodyLockStatus && e.target.closest(".menu-item")) {
+      bodyUnlock();
+      document.documentElement.removeAttribute("data-fls-menu-open");
     }
   });
-});
-const getHeaderHeight = () => {
-  const headerHeight = document?.querySelector(".header").offsetHeight;
-  document.querySelector(":root").style.setProperty("--header-height", `${headerHeight}px`);
-};
-getHeaderHeight();
-window.addEventListener("resize", function() {
-  getHeaderHeight();
-});
-const documentBody = document.querySelector("html");
-const headerMenu = document.querySelector(".header__menu .menu__list");
-const headerMenuLinks = headerMenu.querySelectorAll(".menu__item > a");
-headerMenuLinks.forEach((link) => {
-  link.addEventListener("click", () => {
-    documentBody.removeAttribute("data-fls-menu-open");
-    documentBody.removeAttribute("data-fls-scrollblock");
-  });
-});
+}
+document.querySelector("[data-fls-menu]") ? window.addEventListener("load", menuInit) : null;
 function headerScroll() {
   const header = document.querySelector("[data-fls-header-scroll]");
   const headerShow = header.hasAttribute("data-fls-header-scroll-show");
@@ -99,6 +75,69 @@ function headerScroll() {
   });
 }
 document.querySelector("[data-fls-header-scroll]") ? window.addEventListener("load", headerScroll) : null;
+function pageNavigation() {
+  document.addEventListener("click", pageNavigationAction);
+  document.addEventListener("watcherCallback", pageNavigationAction);
+  function pageNavigationAction(e) {
+    if (e.type === "click") {
+      const targetElement = e.target;
+      if (targetElement.closest("[data-fls-scrollto]")) {
+        const gotoLink = targetElement.closest("[data-fls-scrollto]");
+        const gotoLinkSelector = gotoLink.dataset.flsScrollto ? gotoLink.dataset.flsScrollto : "";
+        const noHeader = gotoLink.hasAttribute("data-fls-scrollto-header") ? true : false;
+        const gotoSpeed = gotoLink.dataset.flsScrolltoSpeed ? gotoLink.dataset.flsScrolltoSpeed : 500;
+        const offsetTop = gotoLink.dataset.flsScrolltoTop ? parseInt(gotoLink.dataset.flsScrolltoTop) : 0;
+        if (window.fullpage) {
+          const fullpageSection = document.querySelector(`${gotoLinkSelector}`).closest("[data-fls-fullpage-section]");
+          const fullpageSectionId = fullpageSection ? +fullpageSection.dataset.flsFullpageId : null;
+          if (fullpageSectionId !== null) {
+            window.fullpage.switchingSection(fullpageSectionId);
+            if (document.documentElement.hasAttribute("data-fls-menu-open")) {
+              bodyUnlock();
+              document.documentElement.removeAttribute("data-fls-menu-open");
+            }
+          }
+        } else {
+          gotoBlock(gotoLinkSelector, noHeader, gotoSpeed, offsetTop);
+        }
+        e.preventDefault();
+      }
+    } else if (e.type === "watcherCallback" && e.detail) {
+      const entry = e.detail.entry;
+      const targetElement = entry.target;
+      if (targetElement.dataset.flsWatcher === "navigator") {
+        document.querySelector(`[data-fls-scrollto].--navigator-active`);
+        let navigatorCurrentItem;
+        if (targetElement.id && document.querySelector(`[data-fls-scrollto="#${targetElement.id}"]`)) {
+          navigatorCurrentItem = document.querySelector(`[data-fls-scrollto="#${targetElement.id}"]`);
+        } else if (targetElement.classList.length) {
+          for (let index = 0; index < targetElement.classList.length; index++) {
+            const element = targetElement.classList[index];
+            if (document.querySelector(`[data-fls-scrollto=".${element}"]`)) {
+              navigatorCurrentItem = document.querySelector(`[data-fls-scrollto=".${element}"]`);
+              break;
+            }
+          }
+        }
+        if (entry.isIntersecting) {
+          navigatorCurrentItem ? navigatorCurrentItem.classList.add("--navigator-active") : null;
+        } else {
+          navigatorCurrentItem ? navigatorCurrentItem.classList.remove("--navigator-active") : null;
+        }
+      }
+    }
+  }
+  if (getHash()) {
+    let goToHash;
+    if (document.querySelector(`#${getHash()}`)) {
+      goToHash = `#${getHash()}`;
+    } else if (document.querySelector(`.${getHash()}`)) {
+      goToHash = `.${getHash()}`;
+    }
+    goToHash ? gotoBlock(goToHash) : null;
+  }
+}
+document.querySelector("[data-fls-scrollto]") ? window.addEventListener("load", pageNavigation) : null;
 function initParallax() {
   const profileImage = document.getElementById("profileImage");
   if (!profileImage) return;
