@@ -75,6 +75,8 @@ function headerScroll() {
   });
 }
 document.querySelector("[data-fls-header-scroll]") ? window.addEventListener("load", headerScroll) : null;
+const year = document.getElementById("year");
+year.textContent = (/* @__PURE__ */ new Date()).getFullYear();
 function pageNavigation() {
   document.addEventListener("click", pageNavigationAction);
   document.addEventListener("watcherCallback", pageNavigationAction);

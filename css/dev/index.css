@@ -1,4 +1,364 @@
+@charset "UTF-8";
 /* stylelint-disable */
+.is-animated-down {
+  transform: translateY(-1.875rem);
+  opacity: 0;
+  animation: animated-down 0.4s forwards;
+  animation-delay: var(--anime-delay, 0.5s);
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+@keyframes animated-down {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.is-animated-up {
+  transform: translateY(1.875rem);
+  opacity: 0;
+  animation: animated-up 0.4s forwards;
+  animation-delay: var(--anime-delay, 0.5s);
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+@keyframes animated-up {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes is-animated-right {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes is-animated-left {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes rotate-border {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate-border {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.glow-effect {
+  --glow-line-color: #fff;
+  --glow-line-thickness: 0.125rem;
+  --glow-line-length: 1.25rem;
+  --glow-blur-color: #fff;
+  --glow-blur-size: 0.3125rem;
+  --glow-offset: 0rem;
+  --animation-speed: 1200ms;
+  /* do not change, used for calculations */
+  --container-offset: 6.25rem;
+  position: relative;
+}
+
+.glow-container {
+  position: absolute;
+  opacity: 0;
+  inset: calc(var(--container-offset) / -2);
+  width: calc(100% + var(--container-offset));
+  height: calc(100% + var(--container-offset));
+  pointer-events: none;
+  /* outline: 0.1875rem solid blue; */
+}
+
+.glow-blur,
+.glow-line {
+  /* rx: 1.25rem; */
+  fill: transparent;
+  x: calc(var(--container-offset) / 2 + var(--glow-offset) / -2);
+  y: calc(var(--container-offset) / 2 + var(--glow-offset) / -2);
+  stroke: black;
+  stroke-dasharray: var(--glow-line-length) calc(3.125rem - var(--glow-line-length));
+  stroke-width: 0.3125rem;
+  width: calc(100% - var(--container-offset) + var(--glow-offset));
+  height: calc(100% - var(--container-offset) + var(--glow-offset));
+}
+
+.glow-effect:not(:disabled):is(:hover, :focus) :is(.glow-line, .glow-blur) {
+  transition: stroke-dashoffset var(--animation-speed) ease-in;
+  stroke-dashoffset: -5rem;
+}
+
+.glow-line {
+  stroke: var(--glow-line-color);
+  stroke-width: var(--glow-line-thickness);
+}
+
+.glow-blur {
+  filter: blur(var(--glow-blur-size));
+  stroke: var(--glow-blur-color);
+  stroke-width: var(--glow-blur-size);
+}
+
+.glow-effect:not(:disabled):is(:hover, :focus) .glow-container {
+  animation: glow-visibility ease-in-out var(--animation-speed);
+}
+
+@-webkit-keyframes glow-visibility {
+  0%, 100% {
+    opacity: 0;
+  }
+  25%, 75% {
+    opacity: 1;
+  }
+}
+@keyframes glow-visibility {
+  0%, 100% {
+    opacity: 0;
+  }
+  25%, 75% {
+    opacity: 1;
+  }
+}
+.glow-effect[data-glow-animation=false] {
+  --glow-line-length: 3.125rem;
+}
+
+.glow-effect[data-glow-offset=true] {
+  --glow-offset: 0.625rem;
+}
+
+.glow-effect[data-glow-animation=grow]:is(:hover, :focus) .glow-container {
+  scale: 1.3;
+  -webkit-transition: scale var(--animation-speed) linear;
+  transition: scale var(--animation-speed) linear;
+}
+
+:root {
+  --widget-main: var(--accent-color);
+  --widget-dark: #3e4a40;
+  --widget-light: #667368;
+  --widget-soft: rgba(76, 89, 79, 0.22);
+  --widget-shadow: rgba(0, 0, 0, 0.18);
+  --widget-hover: var(--primary-color);
+}
+
+.contact-widget-container {
+  display: flex;
+  position: fixed;
+  right: 1.875rem;
+  bottom: 1.875rem;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 99999;
+  font-family: sans-serif;
+  /* Блок дополнительных кнопок */
+}
+.contact-widget-container .sub-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transform: translateY(1rem);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+  margin-bottom: 0.875rem;
+  pointer-events: none;
+}
+.contact-widget-container:hover .sub-buttons, .contact-widget-container.active .sub-buttons {
+  transform: translateY(0);
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+.contact-widget-container {
+  /* Основная кнопка */
+}
+.contact-widget-container .main-contact-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center;
+  animation: widgetPulse 2.8s infinite;
+  transition: width 0.35s ease, background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 0.5rem 1.5rem var(--widget-shadow);
+  border: 0;
+  border-radius: 62.4375rem !important;
+  background: var(--widget-main);
+  padding: 0;
+  width: 3.625rem;
+  height: 3.625rem;
+  overflow: hidden !important;
+  -webkit-tap-highlight-color: transparent;
+}
+.contact-widget-container .main-contact-btn:hover {
+  transform: translateY(-0.0625rem);
+}
+.contact-widget-container.active .main-contact-btn {
+  background: var(--widget-dark);
+}
+.contact-widget-container {
+  /* Раскрытое состояние надписи */
+}
+.contact-widget-container.label-visible .main-contact-btn, .contact-widget-container:hover .main-contact-btn {
+  gap: 0.9375rem;
+  padding-left: 1.5625rem;
+  width: auto;
+}
+.contact-widget-container {
+  /* Надпись */
+}
+.contact-widget-container .contact-label {
+  transform: translateX(0.5rem);
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease, max-width 0.35s ease;
+  max-width: 0;
+  overflow: hidden;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1;
+  letter-spacing: 0.0125rem;
+  white-space: nowrap;
+}
+.contact-widget-container.label-visible .contact-label, .contact-widget-container:hover .contact-label {
+  transform: translateX(0);
+  opacity: 1;
+  max-width: 7.5rem;
+}
+.contact-widget-container {
+  /* Иконка */
+}
+.contact-widget-container .main-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  border-radius: 50% !important;
+  background: var(--widget-dark);
+  width: 3.625rem;
+  min-width: 3.625rem;
+  height: 3.625rem;
+  overflow: hidden !important;
+}
+.contact-widget-container .main-icon svg {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.contact-widget-container {
+  /* Кнопки контактов */
+}
+.contact-widget-container .sub-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0.375rem 1.125rem rgba(0, 0, 0, 0.16);
+  border-radius: 50% !important;
+  background: var(--widget-light);
+  width: 3.25rem;
+  height: 3.25rem;
+  overflow: hidden;
+  color: #fff;
+  text-decoration: none;
+}
+.contact-widget-container .sub-button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0.5rem 1.375rem rgba(0, 0, 0, 0.2);
+  background-color: var(--widget-hover);
+}
+.contact-widget-container .sub-button:hover:has(.vk-icon):hover {
+  border-color: var(--vk-color);
+  background-color: var(--vk-color);
+}
+.contact-widget-container .sub-button:hover:has(.tg-icon):hover {
+  border-color: var(--tg-color);
+  background-color: var(--tg-color);
+}
+.contact-widget-container .sub-button svg, .contact-widget-container .sub-button img {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.contact-widget-container .max-btn {
+  background: var(--widget-dark);
+}
+.contact-widget-container .max-btn img {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+}
+.contact-widget-container .tg-btn {
+  background: var(--widget-light);
+}
+.contact-widget-container .phone-btn {
+  background: var(--widget-dark);
+}
+.contact-widget-container {
+  /* Обертка телефона */
+}
+.contact-widget-container .phone-wrapper {
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+  align-items: center;
+}
+.contact-widget-container {
+  /* Плашка с номером */
+}
+.contact-widget-container .phone-tooltip {
+  position: absolute;
+  top: 50%;
+  right: 4rem;
+  transform: translateY(-50%) translateX(0.625rem);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+  box-shadow: 0 0.375rem 1.125rem rgba(0, 0, 0, 0.16);
+  border-radius: 62.4375rem;
+  background: var(--widget-dark);
+  padding: 0.75rem 1rem;
+  pointer-events: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+.contact-widget-container {
+  /* Показ номера только на десктопе при наведении */
+}
+.contact-widget-container .phone-wrapper:hover .phone-tooltip {
+  transform: translateY(-50%) translateX(0);
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Пульсация */
+@keyframes widgetPulse {
+  0% {
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.18), 0 0 0 0 var(--widget-soft);
+  }
+  70% {
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.18), 0 0 0 0.875rem rgba(76, 89, 79, 0);
+  }
+  100% {
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.18), 0 0 0 0 rgba(76, 89, 79, 0);
+  }
+}
+/* Мобильная версия */
+/* Отключение анимации для тех, кто этого хочет *//* stylelint-disable */
 .is-animated-down {
   transform: translateY(-1.875rem);
   opacity: 0;
@@ -342,12 +702,63 @@
 .section-faq .details__content ul li:last-of-type {
   margin-bottom: 1em;
 }
-@media screen and (max-width: 63.99875rem) {
+@media screen and (max-width: 63.99875rem){
   .section-hero__image {
     aspect-ratio: 58/65;
   }
 }
-@media screen and (min-width: 48rem) {
+@media (max-width: 48rem){
+  .contact-widget-container {
+    right: 1rem;
+    bottom: 1rem;
+  }
+  .contact-widget-container .main-contact-btn,
+  .contact-widget-container.label-visible .main-contact-btn,
+  .contact-widget-container:hover .main-contact-btn {
+    border-radius: 50% !important;
+    padding: 0;
+    width: 3.625rem;
+    height: 3.625rem;
+  }
+  .contact-widget-container .contact-label,
+  .contact-widget-container.label-visible .contact-label,
+  .contact-widget-container:hover .contact-label {
+    display: none;
+  }
+  .contact-widget-container .main-icon {
+    margin-left: 0;
+    width: 3.625rem;
+    min-width: 3.625rem;
+    height: 3.625rem;
+  }
+  .contact-widget-container .sub-button {
+    width: 3.125rem;
+    height: 3.125rem;
+  }
+  .contact-widget-container .sub-button svg,
+  .contact-widget-container .sub-button img {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+  .contact-widget-container .phone-tooltip {
+    display: none;
+  }
+}
+@media screen and (min-width: 48rem){
+  .is-animated-right {
+    transform: translateX(9.375rem);
+    opacity: 0;
+    animation: is-animated-right 0.4s forwards;
+    animation-delay: var(--anime-delay, 0.5);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  .is-animated-left {
+    transform: translateX(-9.375rem);
+    opacity: 0;
+    animation: is-animated-left 0.4s forwards;
+    animation-delay: var(--anime-delay, 0.5);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
   .is-animated-right {
     transform: translateX(9.375rem);
     opacity: 0;
@@ -363,12 +774,12 @@
     transition: transform 0.5s ease, opacity 0.5s ease;
   }
 }
-@media screen and (min-width: 64rem) {
+@media screen and (min-width: 64rem){
   .section-faq__grid {
     grid-template-columns: 1fr;
   }
 }
-@media (min-width: 64rem) {
+@media (min-width: 64rem){
   .section-hero__grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -379,8 +790,20 @@
     grid-template-columns: repeat(auto-fit, minmax(18.75rem, 0.5fr));
   }
 }
-@media (min-width: 85.375rem) {
+@media (min-width: 85.375rem){
   .section-blog__grid {
     grid-template-columns: repeat(auto-fit, minmax(20rem, 0.33fr));
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  .contact-widget-container .main-contact-btn {
+    animation: none;
+  }
+  .contact-widget-container .main-contact-btn,
+  .contact-widget-container .sub-buttons,
+  .contact-widget-container .sub-button,
+  .contact-widget-container .phone-tooltip,
+  .contact-widget-container .contact-label {
+    transition: none;
   }
 }

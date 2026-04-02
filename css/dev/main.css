@@ -299,8 +299,8 @@ label {
 }
 
 :root {
-  --font-family: "PlaypenSans", sans-serif;
-  --second-family: "Montserrat", system-ui;
+  --font-family: 'PlaypenSans', sans-serif;
+  --second-family: 'Montserrat', system-ui;
   --content-width: 95rem;
   --content-offset: 0.9375rem;
   --swiper-pagination-bullet-size: 1.5rem;
@@ -308,7 +308,7 @@ label {
   --swiper-pagination-bullet-border-radius: 0.125rem;
   --swiper-pagination-color: #001f62;
   --swiper-pagination-bullet-inactive-color: #001f62;
-  --header-height: 4.5rem;
+  --header-height: 5.5rem;
   --min-height-section: calc(100svh - var(--header-height));
   --text-color: #dcfcd9;
   --bg-color: #1c221b;
@@ -316,10 +316,8 @@ label {
   --secondary-color: #0a647f;
   --accent-color: #0e47aa;
   --light-color: #f0f1f0;
-  --box-shadow:
-    0 0.3125rem 0.9375rem var(--secondary-color), 0 -0.3125rem 0.9375rem var(--secondary-color);
-  --box-shadow-hover:
-    0 0.3125rem 0.9375rem var(--primary-color), 0 -0.3125rem 0.9375rem var(--primary-color);
+  --box-shadow: 0 0.3125rem 0.9375rem var(--secondary-color), 0 -0.3125rem 0.9375rem var(--secondary-color);
+  --box-shadow-hover: 0 0.3125rem 0.9375rem var(--primary-color), 0 -0.3125rem 0.9375rem var(--primary-color);
   color-scheme: light dark;
   --vk-color: #0077ff;
   --tg-color: #29a0dc;
@@ -675,6 +673,18 @@ video {
   color: #888;
   font-size: 1.1rem;
   text-align: center;
+}
+
+.reveal {
+  transform: translateY(2.25rem);
+  opacity: 0;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  will-change: transform, opacity;
+}
+
+.reveal.visible {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
@@ -1968,7 +1978,7 @@ video {
 
 @media (min-width: 64rem){
   .footer__grid {
-    grid-template-columns: 18.75rem auto 1fr;
+    grid-template-columns: auto auto 1fr;
     gap: 1.25rem 2.8125rem;
   }
   .footer .socials {
@@ -1986,7 +1996,7 @@ video {
     text-align: left;
   }
   .footer__grid {
-    grid-template-columns: 18.75rem auto 1fr;
+    grid-template-columns: auto auto 1fr;
     gap: 1.25rem 2.8125rem;
   }
   .footer .socials {

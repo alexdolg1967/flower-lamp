@@ -1,7 +1,7 @@
 import "./main.min.js";
-import "./sectioncatalog.min.js";
 /* empty css           */
 import { u as uniqArray } from "./common.min.js";
+import "./sectioncatalog.min.js";
 class ScrollWatcher {
   constructor(props) {
     let defaultConfig = {
@@ -84,9 +84,9 @@ class ScrollWatcher {
   }
   // Функция создания нового наблюдателя со своими настройками
   scrollWatcherCreate(configWatcher) {
-    this.observer = new IntersectionObserver((entries, observer) => {
+    this.observer = new IntersectionObserver((entries, observer2) => {
       entries.forEach((entry) => {
-        this.scrollWatcherCallback(entry, observer);
+        this.scrollWatcherCallback(entry, observer2);
       });
     }, configWatcher);
   }
@@ -104,14 +104,14 @@ class ScrollWatcher {
     }
   }
   // Функция отключения слежения за объектом
-  scrollWatcherOff(targetElement, observer) {
-    observer.unobserve(targetElement);
+  scrollWatcherOff(targetElement, observer2) {
+    observer2.unobserve(targetElement);
   }
   // Функция обработки наблюдения
-  scrollWatcherCallback(entry, observer) {
+  scrollWatcherCallback(entry, observer2) {
     const targetElement = entry.target;
     this.scrollWatcherIntersecting(entry, targetElement);
-    targetElement.hasAttribute("data-fls-watcher-once") && entry.isIntersecting ? this.scrollWatcherOff(targetElement, observer) : null;
+    targetElement.hasAttribute("data-fls-watcher-once") && entry.isIntersecting ? this.scrollWatcherOff(targetElement, observer2) : null;
     document.dispatchEvent(new CustomEvent("watcherCallback", {
       detail: {
         entry
@@ -120,3 +120,48 @@ class ScrollWatcher {
   }
 }
 document.querySelector("[data-fls-watcher]") ? window.addEventListener("load", () => new ScrollWatcher({})) : null;
+document.addEventListener("DOMContentLoaded", function() {
+  const widget = document.querySelector(".contact-widget-container");
+  const mainBtn = document.getElementById("mainContactBtn");
+  if (!widget || !mainBtn) return;
+  if (window.innerWidth > 768) {
+    setTimeout(function() {
+      widget.classList.add("label-visible");
+      setTimeout(function() {
+        widget.classList.remove("label-visible");
+      }, 2e3);
+    }, 5e3);
+  }
+  mainBtn.addEventListener("click", function(e) {
+    if (window.innerWidth <= 768) {
+      e.preventDefault();
+      widget.classList.toggle("active");
+    }
+  });
+  document.addEventListener("click", function(e) {
+    if (window.innerWidth <= 768 && !widget.contains(e.target)) {
+      widget.classList.remove("active");
+    }
+  });
+});
+const revealItems = document.querySelectorAll(".reveal");
+const observer = new IntersectionObserver(
+  function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  {
+    threshold: 0.16,
+    rootMargin: "0px 0px -30px 0px"
+  }
+);
+revealItems.forEach(function(item, index) {
+  if (!item.classList.contains("visible")) {
+    item.style.transitionDelay = Math.min(index * 0.08, 0.32) + "s";
+  }
+  observer.observe(item);
+});
